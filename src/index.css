@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @layer base {
+@layer base {
   body {
     @apply font-primary bg-gray-200;
   }
@@ -21,4 +21,4 @@
   .dropdown-menu {
     @apply px-6 py-8 text-[15px] space-y-6 shadow-md bg-white absolute w-full z-10 list-none rounded-b-lg;
   }
-} */
+}
