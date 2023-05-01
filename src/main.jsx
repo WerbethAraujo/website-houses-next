@@ -6,10 +6,15 @@ import './index.css';
 // import router
 import { BrowserRouter } from 'react-router-dom';
 
+// import context
+import HouseContextProvider from './context/HouseContext';
+
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <BrowserRouter>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </BrowserRouter>
+  <HouseContextProvider>
+    <BrowserRouter>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </BrowserRouter>
+  </HouseContextProvider>
 );
