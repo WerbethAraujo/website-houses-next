@@ -18,7 +18,9 @@ const HouseContextProvider = ({ children }) => {
   const [price, setPrice] = useState('Faixa de preço (vazio)');
   const [loading, setLoading] = useState(false);
 
-  function handleFilteredHouses() {
+  const handleFilteredHouses = () => {
+    setLoading(true);
+
     const isDefault = (str) => {
       return str.split(' ').includes('(vazio)');
     };
@@ -37,18 +39,58 @@ const HouseContextProvider = ({ children }) => {
       ) {
         return house;
       }
+
+      if (isDefault(country) && isDefault(property) && isDefault(price)) {
+        return house;
+      }
+
+      if (!isDefault(country) && isDefault(property) && isDefault(price)) {
+        return house.country === country;
+      }
+
+      if (!isDefault(property) && isDefault(country) && isDefault(price)) {
+        return house.type === property;
+      }
+
+      if (!isDefault(price) && isDefault(property) && isDefault(country)) {
+        if (housePrice >= minPrice && housePrice <= maxPrice) {
+          return house;
+        }
+      }
+
+      if (!isDefault(country) && !isDefault(property) && isDefault(price)) {
+        return house.country === country && house.property === property;
+      }
+
+      if (!isDefault(country) && !isDefault(price) && isDefault(property)) {
+        if (housePrice >= minPrice && housePrice <= maxPrice) {
+          return house.country === country;
+        }
+      }
+
+      if (isDefault(country) && !isDefault(property) && !isDefault(price)) {
+        if (housePrice >= minPrice && housePrice <= maxPrice) {
+          return house.type === property;
+        }
+      }
     });
 
-    console.log(newHouses);
-  }
+    setTimeout(() => {
+      return (
+        newHouses.length < 1 ? setHouses([]) : setHouses(newHouses),
+        setLoading(false)
+      );
+    }, 1000);
+  };
 
   const prices = [
     { value: 'Faixa de preço' },
-    { value: '100000 - 150000' },
-    { value: '200000 - 250000' },
-    { value: '300000 - 350000' },
-    { value: '400000 - 450000' },
-    { value: '500000 - 550000' },
+    { value: '100000 - 130000' },
+    { value: '130000 - 160000' },
+    { value: '160000 - 190000' },
+    { value: '190000 - 220000' },
+    { value: '10000 - 30000' },
+    { value: '30000 - 40000' },
   ];
 
   useEffect(() => {
@@ -62,10 +104,7 @@ const HouseContextProvider = ({ children }) => {
   useEffect(() => {
     const allProperties = houses.map((house) => house.type);
 
-    const uniqueProperty = [
-      'Tipo de Propriedade (vazio)',
-      ...new Set(allProperties),
-    ];
+    const uniqueProperty = ['Propriedade (vazio)', ...new Set(allProperties)];
 
     setProperties(uniqueProperty);
   }, []);
