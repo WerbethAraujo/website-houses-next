@@ -9,22 +9,46 @@ export const HouseContext = createContext();
 const HouseContextProvider = ({ children }) => {
   const [houses, setHouses] = useState(housesData);
 
-  const [country, setCountry] = useState('Localização');
+  const [country, setCountry] = useState('Localização (vazio)');
   const [countries, setCountries] = useState([]);
 
-  const [property, setProperty] = useState('Tipo de Propriedade');
+  const [property, setProperty] = useState('Propriedade (vazio)');
   const [properties, setProperties] = useState([]);
 
-  const [price, setPrice] = useState('Faixa de preço');
+  const [price, setPrice] = useState('Faixa de preço (vazio)');
   const [loading, setLoading] = useState(false);
+
+  function handleFilteredHouses() {
+    const isDefault = (str) => {
+      return str.split(' ').includes('(vazio)');
+    };
+
+    const minPrice = parseInt(price.split(' ')[0]);
+    const maxPrice = parseInt(price.split(' ')[2]);
+
+    const newHouses = housesData.filter((house) => {
+      const housePrice = parseInt(house.price);
+
+      if (
+        house.country === country &&
+        house.type === property &&
+        housePrice >= minPrice &&
+        housePrice <= maxPrice
+      ) {
+        return house;
+      }
+    });
+
+    console.log(newHouses);
+  }
 
   const prices = [
     { value: 'Faixa de preço' },
-    { value: '100.000 - 150.000' },
-    { value: '200.000 - 250.000' },
-    { value: '300.000 - 350.000' },
-    { value: '400.000 - 450.000' },
-    { value: '500.000 - 550.000' },
+    { value: '100000 - 150000' },
+    { value: '200000 - 250000' },
+    { value: '300000 - 350000' },
+    { value: '400000 - 450000' },
+    { value: '500000 - 550000' },
   ];
 
   useEffect(() => {
@@ -38,7 +62,10 @@ const HouseContextProvider = ({ children }) => {
   useEffect(() => {
     const allProperties = houses.map((house) => house.type);
 
-    const uniqueProperty = ['Tipo de Propriedade', ...new Set(allProperties)];
+    const uniqueProperty = [
+      'Tipo de Propriedade (vazio)',
+      ...new Set(allProperties),
+    ];
 
     setProperties(uniqueProperty);
   }, []);
@@ -57,6 +84,7 @@ const HouseContextProvider = ({ children }) => {
         setPrice,
         prices,
         loading,
+        handleFilteredHouses,
       }}
     >
       {children}
