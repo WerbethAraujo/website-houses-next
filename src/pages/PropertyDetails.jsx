@@ -34,6 +34,72 @@ const PropertyDetails = () => {
             $ {house.price}
           </div>
         </div>
+        <div className='flex flex-col items-start gap-8 lg:flex-row'>
+          <div className='max-w-[768px]'>
+            <div className='mb-8'>
+              <img src={house.imageLg} alt='imagem da casa' />
+            </div>
+            <div className='flex gap-x-6 text-violet-700 mb-6'>
+              <div className='flex gap-x-2 items-center'>
+                <BiBed className='text-2xl' />
+                <div>{house.bedrooms}</div>
+              </div>
+              <div className='flex gap-x-2 items-center'>
+                <BiBath className='text-2xl' />
+                <div>{house.bathrooms}</div>
+              </div>
+              <div className='flex gap-x-2 items-center'>
+                <BiArea className='text-2xl' />
+                <div>{house.surface}</div>
+              </div>
+            </div>
+            <div>{house.description}</div>
+          </div>
+          <div className='flex-1 bg-white w-full mb-8 border border-gray-300 rounded-lg px-6 py-8'>
+            <div className='flex items-center gap-x-4 mb-8'>
+              <div className='w-20 h-20 p-1 border border-gray-300 rounded-full'>
+                <img src={house.agent.image} alt='imagem corretor' />
+              </div>
+              <div>
+                <div className='font-bold text-lg'>{house.agent.name}</div>
+                <Link to='' className='text-violet-700 text-sm'>
+                  Ver Listas
+                </Link>
+              </div>
+            </div>
+            {/* {form } */}
+            <form className='flex flex-col gap-y-4'>
+              <input
+                type='text'
+                placeholder='Name*'
+                className='border border-gray-300 focus:border-violet-700 outline-none rounded w-full px-4 h-14 text-sm'
+              />
+              <input
+                type='text'
+                placeholder='Email*'
+                className='border border-gray-300 focus:border-violet-700 outline-none rounded w-full px-4 h-14 text-sm'
+              />
+              <input
+                type='text'
+                placeholder='Telefone*'
+                className='border border-gray-300 focus:border-violet-700 outline-none rounded w-full px-4 h-14 text-sm'
+              />
+              <textarea
+                className='border border-gray-300 focus:border-violet-700 outline-none resize-none rounded w-full p-4 h-36 text-sm text-gray-400'
+                placeholder='Messagem*'
+                defaultValue='Olá, tenho interesse neste imovél...'
+              />
+              <div className='flex gap-x-2'>
+                <button className='bg-violet-700 hover:bg-violet-800 text-sm text-white rounded p-4 w-full transition'>
+                  Enviar mensagem
+                </button>
+                <button className='border border-violet-700 text-violet-700 hover:border-violet-500 hover:text-violet-500 transition p-4 text-sm rounded w-full'>
+                  Ligar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </section>
   );
